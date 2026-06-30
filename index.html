@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>\u8fd0\u52a8\u5c0f\u82f1\u96c4</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="page-splash" class="page active">
+    <div class="splash-container">
+      <div class="splash-mascot">\uD83C\uDFC3</div>
+      <h1 class="splash-title">\u8fd0\u52a8\u5c0f\u82f1\u96c4</h1>
+      <p class="splash-subtitle">\u6bcf\u5929\u8fd0\u52a8\uff0c\u70b9\u4eae\u661f\u7403\uff01</p>
+      <button class="btn btn-primary btn-lg" onclick="App.goToPage('page-avatar-setup')">\u5f00\u59cb\u5192\u9669 \u2728</button>
+    </div>
+    <div class="splash-stars" id="splash-stars"></div>
+  </div>
+
+  <div id="page-avatar-setup" class="page">
+    <div class="container">
+      <h2 class="page-title">\uD83C\uDFA8 \u521b\u5efa\u4f60\u7684\u82f1\u96c4\u5f62\u8c61</h2>
+      <div class="avatar-setup">
+        <div class="avatar-preview" id="avatar-preview">
+          <div class="avatar-placeholder" id="avatar-placeholder"><span>\uD83D\uDCF7</span><small>\u70b9\u51fb\u4e0a\u4f20\u7167\u7247</small></div>
+          <canvas id="avatar-canvas" width="200" height="200" style="display:none;"></canvas>
+        </div>
+        <input type="file" id="avatar-input" accept="image/*" style="display:none" onchange="Avatar.handleUpload(event)">
+        <div class="avatar-actions"><button class="btn btn-secondary" onclick="document.getElementById('avatar-input').click()">\uD83D\uDCF7 \u4e0a\u4f20\u7167\u7247</button></div>
+        <div class="nickname-input"><label>\u4f60\u7684\u82f1\u96c4\u540d\u5b57\uff1a</label><input type="text" id="nickname-input" placeholder="\u8bf7\u8f93\u5165\u6635\u79f0" maxlength="10"></div>
+        <button class="btn btn-primary btn-lg" onclick="App.finishSetup()">\u8fdb\u5165\u8fd0\u52a8\u661f\u7403 \uD83D\uDE80</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="page-main" class="page">
+    <header class="top-bar">
+      <div class="user-info" onclick="App.goToPage('page-profile')">
+        <canvas id="top-avatar" width="40" height="40" class="top-avatar-canvas"></canvas>
+        <span id="top-nickname">\u82f1\u96c4</span>
+      </div>
+      <div class="stats-chip"><span>\uD83D\uDD25 \u8fde\u7eed <strong id="streak-days">0</strong> \u5929</span></div>
+      <button class="btn btn-sm btn-accent" onclick="App.goToPage('page-checkin')">+ \u6253\u5361</button>
+    </header>
+    <div class="container map-container">
+      <h2 class="section-title">\uD83C\uDF1F \u8fd0\u52a8\u661f\u7403\u5730\u56fe</h2>
+      <div class="planet-grid" id="planet-grid"></div>
+    </div>
+    <nav class="bottom-nav">
+      <button class="nav-btn active" onclick="App.showTab('map')">\uD83D\uDDFA\uFE0F \u661f\u7403</button>
+      <button class="nav-btn" onclick="App.goToPage('page-diary')">\uD83D\uDCDA \u65e5\u8bb0</button>
+      <button class="nav-btn" onclick="App.goToPage('page-achievements')">\uD83C\uDFC6 \u52cb\u7ae0</button>
+      <button class="nav-btn" onclick="App.goToPage('page-profile')">\uD83D\uDC64 \u6211\u7684</button>
+    </nav>
+  </div>
+
+  <div id="page-checkin" class="page">
+    <div class="container">
+      <button class="btn-back" onclick="App.goToPage('page-main')">\u2190 \u8fd4\u56de</button>
+      <h2 class="page-title">\uD83D\uDCF8 \u4eca\u65e5\u8fd0\u52a8\u6253\u5361</h2>
+      <div class="checkin-photo" id="checkin-photo-area">
+        <div class="photo-upload-area" id="photo-upload-area" onclick="document.getElementById('checkin-photo-input').click()"><span class="upload-icon">\uD83D\uDCF7</span><span>\u70b9\u51fb\u4e0a\u4f20\u8fd0\u52a8\u7167\u7247</span></div>
+        <img id="checkin-photo-preview" class="photo-preview" style="display:none">
+        <input type="file" id="checkin-photo-input" accept="image/*" style="display:none" onchange="App.previewCheckinPhoto(event)">
+      </div>
+      <div class="checkin-sport-select">
+        <h3>\u9009\u62e9\u8fd0\u52a8\u7c7b\u578b\uff1a</h3>
+        <div class="sport-options" id="sport-options"></div>
+      </div>
+      <div class="checkin-data-input" id="checkin-data-input" style="display:none">
+        <h3 id="data-input-label">\u8f93\u5165\u8fd0\u52a8\u6570\u636e\uff1a</h3>
+        <div class="data-input-group"><input type="number" id="data-value" placeholder="\u8bf7\u8f93\u5165\u6570\u503c" min="0" step="any"><span class="data-unit" id="data-unit"></span></div>
+        <div class="data-input-extra" id="data-input-extra" style="display:none"><input type="number" id="data-value-extra" placeholder="\u8bf7\u8f93\u5165\u989d\u5916\u6570\u503c" min="0" step="any"><span class="data-unit" id="data-unit-extra"></span></div>
+      </div>
+      <div class="checkin-note"><label>\u8fd0\u52a8\u611f\u60f3\uff08\u53ef\u9009\uff09\uff1a</label><textarea id="checkin-note" placeholder="\u4eca\u5929\u8fd0\u52a8\u611f\u89c9\u600e\u4e48\u6837\uff1f" maxlength="100"></textarea></div>
+      <button class="btn btn-primary btn-lg btn-block" id="checkin-submit" onclick="App.submitCheckin()" disabled>\uD83C\uDF89 \u5b8c\u6210\u6253\u5361</button>
+    </div>
+  </div>
+
+  <div id="page-diary" class="page">
+    <div class="container">
+      <button class="btn-back" onclick="App.goToPage('page-main')">\u2190 \u8fd4\u56de</button>
+      <h2 class="page-title">\uD83D\uDCDA \u8fd0\u52a8\u65e5\u8bb0</h2>
+      <div class="diary-list" id="diary-list"></div>
+      <div class="empty-state" id="diary-empty" style="display:none"><span class="empty-icon">\uD83D\uDCDD</span><p>\u8fd8\u6ca1\u6709\u8fd0\u52a8\u8bb0\u5f55\u54e6\uff5e<br>\u5feb\u53bb\u6253\u5361\u5427\uff01</p></div>
+    </div>
+  </div>
+
+  <div id="page-achievements" class="page">
+    <div class="container">
+      <button class="btn-back" onclick="App.goToPage('page-main')">\u2190 \u8fd4\u56de</button>
+      <h2 class="page-title">\uD83C\uDFC6 \u6211\u7684\u52cb\u7ae0\u5899</h2>
+      <div class="badges-grid" id="badges-grid"></div>
+    </div>
+  </div>
+
+  <div id="page-profile" class="page">
+    <div class="container">
+      <button class="btn-back" onclick="App.goToPage('page-main')">\u2190 \u8fd4\u56de</button>
+      <h2 class="page-title">\uD83D\uDC64 \u6211\u7684\u8fd0\u52a8\u4e2d\u5fc3</h2>
+      <div class="profile-card">
+        <canvas id="profile-avatar" width="120" height="120"></canvas>
+        <h3 id="profile-nickname">\u82f1\u96c4</h3>
+        <p class="profile-join-date" id="profile-join-date"></p>
+      </div>
+      <div class="profile-stats">
+        <div class="stat-card"><span class="stat-number" id="stat-total">0</span><span class="stat-label">\u603b\u6253\u5361</span></div>
+        <div class="stat-card"><span class="stat-number" id="stat-streak">0</span><span class="stat-label">\u8fde\u7eed\u5929\u6570</span></div>
+        <div class="stat-card"><span class="stat-number" id="stat-sports">0</span><span class="stat-label">\u8fd0\u52a8\u79cd\u7c7b</span></div>
+      </div>
+      <div class="profile-section"><h3>\uD83D\uDCCA \u8fd0\u52a8\u62a5\u544a</h3><div class="report-chart" id="report-chart"></div></div>
+      <div class="profile-actions">
+        <button class="btn btn-secondary" onclick="App.exportData()">\uD83D\uDCDE \u5bfc\u51fa\u6570\u636e</button>
+        <button class="btn btn-danger" onclick="App.resetData()">\uD83D\uDdbc\uFE0F \u91cd\u7f6e\u6570\u636e</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-success" style="display:none">
+    <div class="modal-content modal-success">
+      <div class="success-animation" id="success-animation">\uD83C\uDF89</div>
+      <h2>\u6253\u5361\u6210\u529f\uff01</h2>
+      <p id="success-msg">\u592a\u68d2\u4e86\uff0c\u7ee7\u7eed\u52a0\u6cb9\uff01</p>
+      <div class="badge-unlock" id="badge-unlock" style="display:none"><p>\uD83C\uDFC6 \u89e3\u9501\u65b0\u52cb\u7ae0\uff01</p><span id="badge-icon">\uD83C\uDF47</span></div>
+      <button class="btn btn-primary" onclick="App.closeModal('modal-success')">\u592a\u597d\u4e86 \u2728</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-planet" style="display:none">
+    <div class="modal-content modal-planet">
+      <button class="modal-close" onclick="App.closeModal('modal-planet')">\u2715</button>
+      <div class="planet-detail" id="planet-detail"></div>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/avatar.js"></script>
+  <script src="js/animation.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
