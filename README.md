@@ -55,9 +55,7 @@ rungogo/
 │   └── app.js                 # 主应用逻辑
 ├── index.html                 # 单文件版本（发布到 GitHub Pages）
 ├── index-standalone.html      # 构建产物（合并后的单文件）
-├── build.py                   # 将 CSS/JS 合并为 index-standalone.html 的脚本
-├── gen.py / gen.js            # 生成独立 HTML 的辅助脚本
-└── README.md                  # 本文件
+└── build.py                   # 将 CSS/JS 合并为 index-standalone.html 的构建脚本
 ```
 
 ---
