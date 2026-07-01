@@ -1,0 +1,61 @@
+<!-- 个人中心 -->
+<view class="container">
+  <button class="btn-back btn-ripple" bindtap="goBack">← 返回</button>
+  <view class="page-title">👤 我的运动中心</view>
+
+  <!-- 头像卡片 -->
+  <view class="profile-card">
+    <image wx:if="{{avatarUrl}}" src="{{avatarUrl}}" mode="aspectFill" style="width:200rpx;height:200rpx;border-radius:50%;border:8rpx solid #fff;margin-bottom:20rpx;"></image>
+    <view wx:else style="width:200rpx;height:200rpx;border-radius:50%;border:8rpx solid #fff;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 20rpx;font-size:80rpx;">👤</view>
+    <view class="nickname">{{nickname}}</view>
+    <view class="join-date" wx:if="{{joinDate}}">加入时间：{{joinDate}}</view>
+  </view>
+
+  <!-- 统计数据 -->
+  <view class="profile-stats">
+    <view class="stat-card stagger-item" style="--stagger-idx:0;">
+      <text class="stat-number number-pop">{{totalChekins}}</text>
+      <text class="stat-label">总打卡</text>
+    </view>
+    <view class="stat-card stagger-item" style="--stagger-idx:1;">
+      <text class="stat-number number-pop">{{streak}}</text>
+      <text class="stat-label">连续天数</text>
+    </view>
+    <view class="stat-card stagger-item" style="--stagger-idx:2;">
+      <text class="stat-number number-pop">{{sportKinds}}</text>
+      <text class="stat-label">运动种类</text>
+    </view>
+  </view>
+
+  <!-- 运动报告 -->
+  <view class="profile-section">
+    <h3>📊 运动报告</h3>
+    <view class="report-chart">
+      <view class="chart-bar stagger-item" wx:for="{{chartData}}" wx:key="label"
+            style="height:{{item.height}}px;--streak-idx:{{index}};"
+            title="{{item.day}}: {{item.count}}次打卡">
+        <text class="chart-bar-label">{{item.label}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 音效设置 -->
+  <view class="profile-section">
+    <h3>🔊 设置</h3>
+
+    <!-- 音效开关 -->
+    <view class="audio-toggle" bindtap="toggleAudio">
+      <view class="audio-toggle-label">音效</view>
+      <view class="audio-toggle-switch {{audioEnabled ? 'on' : 'off'}}">
+        <view class="audio-toggle-knob"></view>
+      </view>
+      <text style="font-size:24rpx;color:#636E72;">{{audioEnabled ? '已开启' : '已关闭'}}</text>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="profile-actions">
+    <button class="btn btn-secondary btn-ripple" bindtap="exportData">📤 导出数据</button>
+    <button class="btn btn-danger btn-ripple" bindtap="resetData">🗑️ 重置数据</button>
+  </view>
+</view>

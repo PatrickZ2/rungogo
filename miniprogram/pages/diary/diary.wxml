@@ -1,0 +1,25 @@
+<!-- 运动日记 -->
+<view class="container">
+  <button class="btn-back" bindtap="goBack">← 返回</button>
+  <view class="page-title">📖 运动日记</view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{records.length === 0}}">
+    <text class="empty-icon">📝</text>
+    <text>还没有运动记录哦～\n快去打卡吧！</text>
+  </view>
+
+  <!-- 日记列表 -->
+  <view class="diary-list" wx:else>
+    <view class="diary-entry" wx:for="{{records}}" wx:key="_id">
+      <image class="diary-photo" src="{{item.photoUrl}}" mode="aspectFill" wx:if="{{item.photoUrl}}"></image>
+      <view class="diary-photo" style="display:flex;align-items:center;justify-content:center;font-size:56rpx;background:#F0F0F0;" wx:else>{{item.sportIcon || '📝'}}</view>
+      <view class="diary-info">
+        <view class="diary-date">📅 {{item.dateStr}}</view>
+        <view class="diary-sport">{{item.sportIcon}} {{item.sportName}}</view>
+        <view class="diary-data">{{item.dataText}}</view>
+        <view class="diary-note" wx:if="{{item.note}}">"{{item.note}}"</view>
+      </view>
+    </view>
+  </view>
+</view>

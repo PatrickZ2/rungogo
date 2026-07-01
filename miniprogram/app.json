@@ -1,0 +1,22 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/setup/setup",
+    "pages/main/main",
+    "pages/checkin/checkin",
+    "pages/diary/diary",
+    "pages/badge/badge",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "navigationStyle": "custom",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#6C5CE7",
+    "navigationBarTitleText": "运动小英雄",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F8F9FA"
+  },
+  "cloud": true,
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

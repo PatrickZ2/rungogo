@@ -1,0 +1,67 @@
+<!-- 主页面：顶部栏 + 星球地图 + 底部导航 -->
+<view class="top-bar" style="{{topBarStyle}}">
+  <view class="user-info" bindtap="goProfile">
+    <image class="top-avatar" src="{{avatarUrl}}" mode="aspectFill" wx:if="{{avatarUrl}}"></image>
+    <view class="top-avatar" style="background:linear-gradient(135deg,#DFE6E9,#B2BEC3);display:flex;align-items:center;justify-content:center;font-size:28rpx;" wx:else>👤</view>
+    <text>{{nickname}}</text>
+  </view>
+  <view class="stats-chip">🔥 连续 <text class="{{streakChanged ? 'number-pop' : ''}}" style="font-weight:700;">{{streak}}</text> 天</view>
+  <button class="plus-btn btn-ripple" bindtap="goCheckin">+ 打卡</button>
+</view>
+
+<view class="container">
+  <view class="section-title">🌟 运动星球地图</view>
+  <view class="planet-grid">
+    <view class="planet-card {{item.locked ? 'locked' : ''}}" wx:for="{{planets}}" wx:key="id"
+          bindtap="showPlanetDetail" data-id="{{item.id}}"
+          style="--glow-color: {{item.glowColor || '#6C5CE7'}};">
+      <!-- 已解锁发光层 -->
+      <view class="planet-glow" wx:if="{{!item.locked}}"></view>
+      <view class="planet-icon">{{item.icon}}</view>
+      <view class="planet-name">{{item.name}}</view>
+      <view class="planet-stats">打卡 {{item.count}} 次</view>
+      <view class="planet-progress">
+        <view class="planet-progress-bar {{item.pct >= 100 ? 'progress-burst' : ''}}" style="width:{{item.pct}}%"></view>
+      </view>
+      <view class="planet-lock-badge" wx:if="{{item.locked}}">🔒</view>
+    </view>
+  </view>
+</view>
+
+<!-- 底部导航 -->
+<view class="bottom-nav">
+  <view class="nav-btn active" bindtap="stayHere" id="nav-home">
+    <text class="nav-icon">🗺️</text>
+    <text>星球</text>
+  </view>
+  <view class="nav-btn" bindtap="goDiary" id="nav-diary">
+    <text class="nav-icon">📖</text>
+    <text>日记</text>
+  </view>
+  <view class="nav-btn" bindtap="goBadge" id="nav-badge">
+    <text class="nav-icon">🏆</text>
+    <text>勋章</text>
+  </view>
+  <view class="nav-btn" bindtap="goProfile" id="nav-profile">
+    <text class="nav-icon">👤</text>
+    <text>我的</text>
+  </view>
+</view>
+
+<!-- 星球详情弹窗 -->
+<view class="modal-mask" wx:if="{{showPlanetModal}}" bindtap="closePlanetModal">
+  <view class="modal-content modal-planet" catchtap="noop">
+    <button class="modal-close" bindtap="closePlanetModal">✕</button>
+    <view style="font-size:110rpx;text-align:center;margin-bottom:20rpx;" class="planet-icon">{{currentPlanet.icon}}</view>
+    <view style="font-size:38rpx;font-weight:700;text-align:center;margin-bottom:10rpx;">{{currentPlanet.name}}</view>
+    <view style="text-align:center;color:#636E72;margin-bottom:30rpx;">打卡次数：{{currentPlanet.count}}</view>
+    <view style="text-align:center;color:#B2BEC3;margin-bottom:20rpx;" wx:if="{{planetRecords.length === 0}}">还没有在这颗星球运动过哦～</view>
+    <scroll-view scroll-y style="max-height:500rpx;" wx:else>
+      <view class="stagger-item" wx:for="{{planetRecords}}" wx:key="_id" style="--stagger-idx: {{index}};padding:20rpx;border-bottom:1px solid #F0F0F0;">
+        <view style="font-size:24rpx;color:#636E72;">{{item.dateStr}}</view>
+        <view style="font-weight:600;font-size:28rpx;">{{item.sportIcon}} {{item.sportName}}</view>
+        <view style="color:#6C5CE7;font-size:26rpx;">{{item.dataText}}</view>
+      </view>
+    </scroll-view>
+  </view>
+</view>

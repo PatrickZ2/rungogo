@@ -1,0 +1,25 @@
+/* 勋章页样式增强 */
+
+/* 已解锁勋章发光环 */
+.badge-glow-ring {
+  position: absolute;
+  inset: -3rpx;
+  border-radius: var(--radius);
+  pointer-events: none;
+  z-index: 0;
+  background: transparent;
+  box-shadow: 0 0 12rpx hsla(var(--glow-hue, 45), 70%, 55%, 0.25);
+}
+
+.badge-card {
+  position: relative; /* 为 glow-ring 定位 */
+}
+
+/* 勋章解锁仪式容器 */
+.ceremony-content {
+  position: relative;
+  width: 80%;
+  max-width: 600rpx;
+  text-align: center;
+  padding-bottom: 20rpx;
+}

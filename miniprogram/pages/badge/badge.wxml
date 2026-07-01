@@ -1,0 +1,48 @@
+<!-- 勋章墙 -->
+<view class="container">
+  <button class="btn-back btn-ripple" bindtap="goBack">← 返回</button>
+  <view class="page-title">🏆 我的勋章墙</view>
+
+  <view class="badges-grid">
+    <view class="badge-card {{item.unlocked ? '' : 'locked'}} btn-ripple"
+          wx:for="{{badges}}" wx:key="id"
+          bindtap="onBadgeTap" data-item="{{item}}">
+      <!-- 已解锁：显示图标 -->
+      <text class="badge-icon" wx:if="{{item.unlocked}}">{{item.icon}}</text>
+      <!-- 未解锁：锁住 -->
+      <text class="badge-icon" style="filter:grayscale(1);" wx:else>🔒</text>
+      <view class="badge-name">{{item.unlocked ? item.name : '???'}}</view>
+      <view class="badge-desc">{{item.unlocked ? item.desc : '未解锁'}}</view>
+
+      <!-- 已解锁徽章发光边框 -->
+      <view class="badge-glow-ring" wx:if="{{item.unlocked}}" style="--glow-hue: {{item.glowHue || 45}};"></view>
+    </view>
+  </view>
+</view>
+
+<!-- ====== 勋章解锁仪式弹窗 ====== -->
+<view class="ceremony-darken" wx:if="{{showCeremony}}" catchtap="closeCeremony">
+  <view class="ceremony-content" catchtap="noop">
+    <!-- 光芒爆发背景 -->
+    <view class="burst-light"></view>
+
+    <!-- 星星环绕 -->
+    <block wx:for="{{orbitStars}}" wx:key="index">
+      <text class="orbit-star stagger-item"
+            style="--orbit-radius: {{item.r}}rpx; --orbit-delay: {{item.d}}s; --orbit-duration: {{item.t}}s; --stagger-idx: {{index}};">{{item.icon}}</text>
+    </block>
+
+    <!-- 勋章主体 -->
+    <view class="badge-ceremony">
+      <view class="badge-golden-ring">
+        <text class="badge-icon-ceremony">{{ceremonyBadge.icon}}</text>
+      </view>
+      <view class="badge-title-ceremony">{{ceremonyBadge.name}}</view>
+      <view class="badge-desc-ceremony">{{ceremonyBadge.desc}}</view>
+    </view>
+
+    <button class="btn btn-primary btn-waiting-pulse btn-ripple" bindtap="closeCeremony" style="margin-top:48rpx;">
+      太棒了 ✨
+    </button>
+  </view>
+</view>

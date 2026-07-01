@@ -1,0 +1,32 @@
+<!-- 头像设置页 -->
+<view class="container">
+  <view class="page-title">🎨 创建你的英雄形象</view>
+  <view class="avatar-setup">
+    <!-- 头像预览 -->
+    <view class="avatar-preview" bindtap="chooseAvatar">
+      <view class="avatar-placeholder" wx:if="{{!avatarUrl}}">
+        <text class="ph-icon">📷</text>
+        <text>点击上传照片</text>
+      </view>
+      <image class="avatar-img" wx:if="{{avatarUrl}}" src="{{avatarUrl}}" mode="aspectFill"></image>
+    </view>
+
+    <!-- 上传/重选按钮 -->
+    <view class="avatar-actions">
+      <button class="btn btn-secondary btn-sm" bindtap="chooseAvatar">
+        {{avatarUrl ? '🔄 重新选择' : '📷 上传照片'}}
+      </button>
+    </view>
+
+    <!-- 昵称输入 -->
+    <view class="nickname-input">
+      <label>你的英雄名字：</label>
+      <input type="nickname" placeholder="请输入昵称" maxlength="10" value="{{nickname}}" bindinput="onNickInput" />
+    </view>
+
+    <!-- 确认按钮 -->
+    <button class="btn btn-primary btn-lg btn-block" bindtap="finishSetup" disabled="{{!avatarUrl || !nickname}}">
+      进入运动星球 🚀
+    </button>
+  </view>
+</view>

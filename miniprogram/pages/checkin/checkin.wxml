@@ -1,0 +1,96 @@
+<!-- 打卡页 -->
+<view class="container">
+  <button class="btn-back btn-ripple" bindtap="goBack">← 返回</button>
+  <view class="page-title">📸 今日运动打卡</view>
+
+  <!-- 照片上传 -->
+  <view class="checkin-photo">
+    <view class="photo-area" wx:if="{{!photoUrl}}" bindtap="choosePhoto">
+      <text class="upload-icon">📷</text>
+      <text>点击上传运动照片</text>
+    </view>
+    <image class="photo-preview" wx:if="{{photoUrl}}" src="{{photoUrl}}" mode="aspectFill" bindtap="choosePhoto"></image>
+  </view>
+
+  <!-- 运动类型选择 -->
+  <view class="checkin-sport-select">
+    <view class="sport-select-title">选择运动类型：</view>
+    <view class="sport-options">
+      <view class="sport-option {{currentSportId === item.id ? 'selected' : ''}} btn-ripple"
+            wx:for="{{sportTypes}}" wx:key="id"
+            bindtap="selectSport" data-id="{{item.id}}">
+        <text class="sport-icon">{{item.icon}}</text>
+        <text>{{item.name}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 运动数据输入 -->
+  <view class="checkin-data-input" wx:if="{{currentSportId}}">
+    <view class="data-input-group">
+      <input type="digit" placeholder="请输入{{currentSport.unitLabel}}" value="{{dataValue}}" bindinput="onDataInput" />
+      <text class="data-unit">{{currentSport.unit}}</text>
+    </view>
+    <view class="data-input-group" wx:if="{{hasExtra}}">
+      <input type="digit" placeholder="请输入{{currentSport.extra.label}}" value="{{extraValue}}" bindinput="onExtraInput" />
+      <text class="data-unit">{{currentSport.extra.unit}}</text>
+    </view>
+  </view>
+
+  <!-- 感想 -->
+  <view class="note-area">
+    <view style="font-weight:600;font-size:30rpx;margin-bottom:16rpx;">运动感想（可选）：</view>
+    <textarea placeholder="今天运动感觉怎么样？" maxlength="100" value="{{note}}" bindinput="onNoteInput"></textarea>
+  </view>
+
+  <!-- 提交按钮 -->
+  <button class="btn btn-primary btn-lg btn-block btn-ripple {{canSubmit ? '' : 'btn-disabled'}}" bindtap="submitCheckin">
+    🎉 完成打卡
+  </button>
+</view>
+
+<!-- ====== 成功弹窗（增强版）====== -->
+<view class="modal-mask" wx:if="{{showSuccess}}" bindtap="closeSuccess">
+  <!-- 彩纸屑层 -->
+  <view class="confetti-container" catchtap="noop">
+    <text class="confetti-piece" wx:for="{{confetti}}" wx:key="*this"
+          style="--startY: {{item.y}}px; --startX: {{item.x}}px; --driftX: {{item.drift}}px; --rotation: {{item.rot}}deg; --duration: {{item.dur}}s; --delay: {{item.delay}}s; left:{{item.x}}px; top:{{item.y}}px;">
+      {{item.shape}}
+    </text>
+  </view>
+
+  <view class="modal-content modal-success" catchtap="noop">
+    <!-- 图标旋转弹入 -->
+    <view class="success-icon-enhanced">🎉</view>
+
+    <!-- 标题逐字效果 -->
+    <view style="font-size:40rpx;font-weight:800;margin:20rpx 0 12rpx;color:#6C5CE7;">
+      打卡成功！
+    </view>
+
+    <!-- 鼓励文案 -->
+    <view style="font-size:28rpx;color:#636E72;margin-bottom:24rpx;" class="char-reveal" style="animation-delay:0.3s;">{{successMsg}}</view>
+
+    <!-- 新勋章展示 -->
+    <view class="badge-unlock" wx:if="{{newBadges.length > 0}}">
+      <text style="display:block;margin-bottom:8rpx;">🏆 解锁新勋章！</text>
+      <text class="badge-unlock-icon badge-icon-ceremony badge-golden-ring">{{newBadges[0].icon}}</text>
+      <text style="font-size:32rpx;font-weight:700;display:block;margin-top:8rpx;">{{newBadges[0].name}}</text>
+    </view>
+
+    <!-- 运动数据摘要（数字滚动） -->
+    <view style="background:#F8F9FA;border-radius:20rpx;padding:20rpx;margin-top:16rpx;" wx:if="{{summaryText}}">
+      <text style="font-size:28rpx;color:#636E72;">{{summaryText}}</text>
+    </view>
+
+    <button class="btn btn-primary btn-waiting-pulse btn-ripple" bindtap="closeSuccess" style="margin-top:28rpx;">
+      太好了 ✨
+    </button>
+  </view>
+</view>
+
+<!-- 粒子特效层（保留原版作为补充） -->
+<view class="particles-container" wx:if="{{showParticles}}">
+  <view class="particle" wx:for="{{particles}}" wx:key="*this"
+        style="left:{{item.x}}px;top:{{item.y}}px;--dx:{{item.dx}}px;--dy:{{item.dy}}px;background:{{item.color}};width:{{item.size}}px;height:{{item.size}}px;"></view>
+</view>

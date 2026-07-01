@@ -1,0 +1,23 @@
+<!-- 启动页 -->
+<view class="splash-page">
+  <!-- 流星层 -->
+  <block wx:for="{{shootingStars}}" wx:key="index">
+    <view class="shooting-star" style="left:{{item.x}}%;top:{{item.y}}%;animation-delay:{{item.delay}}s;"></view>
+  </block>
+
+  <view class="splash-container">
+    <view class="splash-mascot">🏃</view>
+    <view class="splash-title">
+      <text class="char-reveal" style="animation-delay:0s;">运</text><text class="char-reveal" style="animation-delay:0.08s;">动</text><text class="char-reveal" style="animation-delay:0.16s;">小</text><text class="char-reveal" style="animation-delay:0.24s;">英</text><text class="char-reveal" style="animation-delay:0.32s;">雄</text>
+    </view>
+    <view class="splash-subtitle">每天运动，点亮星球！</view>
+    <button class="splash-btn btn-ripple" bindtap="startAdventure">开始冒险 ✨</button>
+  </view>
+
+  <!-- 星空 -->
+  <view class="splash-stars" id="splashStars">
+    <block wx:for="{{stars}}" wx:key="*this">
+      <view class="star" style="left:{{item.left}}%;top:{{item.top}}%;animation-delay:{{item.delay}}s;"></view>
+    </block>
+  </view>
+</view>
